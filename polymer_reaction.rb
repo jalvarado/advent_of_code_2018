@@ -1,4 +1,11 @@
 module PolymerReaction
+  def self.shortest_polymer(polymer_string)
+    chars = polymer_string.chars.map(&:downcase).uniq
+
+    chars.map do |wildcard|
+      chain_reaction(polymer_string.gsub(/[#{wildcard}#{wildcard.upcase}]/, ''))
+    end.min
+  end
   def self.chain_reaction(polymer_string)
       new_polymer = react(polymer_string)
       return new_polymer.size if polymer_string == new_polymer
@@ -34,5 +41,7 @@ if __FILE__ == $0
   polymer = File.read(input_filename).chomp
 
   puts "New Polymer: #{PolymerReaction.chain_reaction(polymer).inspect}"
+
+  puts "Shortest Polymer String: #{PolymerReaction.shortest_polymer(polymer)}"
 
 end
